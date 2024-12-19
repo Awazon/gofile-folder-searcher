@@ -17,8 +17,10 @@
                     <div class="flex items-center space-x-3 pb-4 border-b border-gray-600">
                         <i class="fas fa-folder text-yellow-400 text-2xl"></i>
                         <div>
-                            <span class="text-gray-400 text-sm">Searching in:</span>
-                            <h2 class="text-lg font-bold text-white"><h2>
+                            <span class="text-gray-400 text-sm">Searching in: </span>
+                            <h2 class="text-lg font-bold text-white">${
+								location.href.split("/")[4]
+							}<h2>
                         </div>
                     </div>
 
@@ -34,17 +36,9 @@
                                 <ul class="text-sm text-gray-300 space-y-1 ml-4">
                                     <li class="flex items-center space-x-2">
                                         <i class="fas fa-dot-circle text-xs text-blue-400"></i>
-                                        <span>File or folder names</span>
-                                    </li>
-                                    <li class="flex items-center space-x-2">
-                                        <i class="fas fa-dot-circle text-xs text-blue-400"></i>
-                                        <span>Tags (if available)</span>
+                                        <span>File names</span>
                                     </li>
                                 </ul>
-                                <div class="flex items-center space-x-2 text-xs text-gray-400 mt-2">
-                                    <i class="fas fa-code-branch"></i>
-                                    <p>More search criteria coming soon</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -92,7 +86,9 @@
                     </div>
                 </div>
             `;
+			return htmlText;
 		},
+
 		createButtons() {
 			let htmlText = `
                 <div id="filemanager_extension" class="flex items-center justify-end">
@@ -109,6 +105,7 @@
                     </div>
                 </div>
             `;
+			return htmlText;
 		},
 	};
 
@@ -123,7 +120,7 @@
 		addGui() {
 			//add button
 			const mainButtonNode = document.getElementById("filemanager_mainbuttons");
-			mainButtonNode.insertAdjacentHTML("afterend", gui.buttons);
+			mainButtonNode.insertAdjacentHTML("afterend", gui.createButtons());
 
 			//add events
 			document.addEventListener("click", (event) => {
@@ -133,7 +130,7 @@
 					//global.js function
 					window.createPopup({
 						title: "Search All Folder Content",
-						content: gui.searchPopup,
+						content: gui.createSearchPopup(),
 					});
 				}
 				if (eventTarget.closest("#filemanager_extension_fetch")) {
@@ -141,6 +138,7 @@
 				}
 			});
 		},
+
 		setObserver() {
 			const fileListNode = document.getElementById("index_main");
 
@@ -164,5 +162,6 @@
 			}
 		},
 	};
+
 	init.setObserver();
 })();
